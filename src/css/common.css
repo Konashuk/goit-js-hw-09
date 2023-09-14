@@ -16,3 +16,25 @@ img {
   display: block;
   max-width: 100%;
 }
+
+button {
+  margin-bottom: 20px;
+}
+
+.timer {
+  display: flex;
+  gap: 10px;
+  margin: 20px;
+}
+
+span {
+  display: flex;
+  justify-content: space-around;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.label {
+  font-size: 10px;
+  text-transform: uppercase;
+}
