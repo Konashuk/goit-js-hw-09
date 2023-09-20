@@ -1,8 +1,6 @@
 // // all modules
 import Notiflix from 'notiflix';
 
-import 'notiflix/dist/notiflix-3.2.6.min.css';
-
 const form = document.querySelector('.form');
 const delayInput = form.querySelector('[name="delay"]');
 const stepInput = form.querySelector('[name="step"]');
@@ -30,18 +28,29 @@ function chekInput(event) {
   const delay = Number(delayInput.value);
   const step = Number(stepInput.value);
   const amount = Number(amountInput.value);
-
-  for (let i = 1; i <= amount; i++) {
-    createPromise(i, delay)
+  function executePromise(index) {
+    createPromise(index, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(
           `✅ Fulfilled promise ${position} in ${delay}ms`
         );
+        if (index < amount) {
+          setTimeout(() => {
+            executePromise(index + 1);
+          }, delay + step * index);
+        }
       })
       .catch(({ position, delay }) => {
         Notiflix.Notify.failure(
           `❌ Rejected promise ${position} in ${delay}ms`
         );
+        if (index < amount) {
+          setTimeout(() => {
+            executePromise(index + 1);
+          }, delay + step * index);
+        }
       });
   }
+
+  executePromise(1);
 }
