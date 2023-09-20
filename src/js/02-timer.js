@@ -36,20 +36,15 @@ function startTimer(ev) {
     const ms = selectedDate - curentTime;
 
     if (ms <= 0) {
-      clearInterval(timer); // Зупинити таймер, якщо час вийшов
+      clearInterval(timer);
       return;
     }
-
-    // const seconds = curentTime.getSeconds();
-    // const minutes = curentTime.getMinutes();
-    // const hours = curentTime.getHours();
-    // const days = curentTime.getDate();
     const { days, hours, minutes, seconds } = convertMs(ms);
 
-    daysEl.textContent = days;
-    hoursEl.textContent = hours;
-    minutesEl.textContent = minutes;
-    seconsdEl.textContent = seconds;
+    daysEl.textContent = addLeadingZero(days);
+    hoursEl.textContent = addLeadingZero(hours);
+    minutesEl.textContent = addLeadingZero(minutes);
+    seconsdEl.textContent = addLeadingZero(seconds);
   }, 1000);
 }
 
@@ -68,10 +63,10 @@ function convertMs(ms) {
   const minutes = Math.floor(((ms % day) % hour) / minute);
   // Remaining seconds
   const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const resultTime = { days, hours, minutes, seconds };
 
-  return { days, hours, minutes, seconds };
+  return resultTime;
 }
-
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
