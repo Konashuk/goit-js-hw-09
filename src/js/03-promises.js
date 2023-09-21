@@ -25,32 +25,22 @@ function createPromise(position, delay) {
 function chekInput(event) {
   event.preventDefault();
 
-  const delay = Number(delayInput.value);
+  let delay = Number(delayInput.value);
   const step = Number(stepInput.value);
   const amount = Number(amountInput.value);
-  function executePromise(index) {
+
+  for (let index = 1; index <= amount; index += 1) {
     createPromise(index, delay)
       .then(({ position, delay }) => {
         Notiflix.Notify.success(
           `✅ Fulfilled promise ${position} in ${delay}ms`
         );
-        if (index < amount) {
-          setTimeout(() => {
-            executePromise(index + 1);
-          }, delay + step * index);
-        }
       })
       .catch(({ position, delay }) => {
         Notiflix.Notify.failure(
           `❌ Rejected promise ${position} in ${delay}ms`
         );
-        if (index < amount) {
-          setTimeout(() => {
-            executePromise(index + 1);
-          }, delay + step * index);
-        }
       });
+    delay += step;
   }
-
-  executePromise(1);
 }
